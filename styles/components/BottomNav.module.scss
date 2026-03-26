@@ -1,0 +1,93 @@
+@use "../tokens" as t;
+
+.bottomNav {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 40;
+}
+
+.bottomNav__inner {
+  width: 100%;
+  max-width: 28rem;
+  margin: 0 auto;
+  padding: 0 1rem;
+  min-width: 0;
+}
+
+.bottomNav__card {
+  border-radius: 22px;
+  border: 1px solid var(--border);
+  background: color-mix(in oklab, var(--surface) 75%, transparent);
+  backdrop-filter: blur(18px);
+  box-shadow: var(--shadow);
+}
+
+.bottomNav__list {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  > li {
+    min-width: 0;
+  }
+}
+
+.bottomNav__link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+  min-width: 0;
+  width: 100%;
+  padding: 0.65rem 0.15rem;
+
+  font-size: 10px;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--muted);
+
+  transition: color 160ms ease;
+
+  &:hover {
+    color: var(--text);
+  }
+}
+
+.bottomNav__link--active {
+  color: var(--text);
+}
+
+.bottomNav__iconWrap {
+  display: grid;
+  place-items: center;
+  height: 36px;
+  width: 36px;
+  border-radius: 999px;
+}
+
+.bottomNav__iconWrap--active {
+  background: var(--primary);
+  color: var(--primary-foreground);
+  box-shadow: 0 10px 26px rgba(255, 56, 92, 0.35);
+}
+
+.bottomNav__iconSvg {
+  width: 18px;
+  height: 18px;
+}
+
+.bottomNav__label {
+  display: block;
+  max-width: 100%;
+  line-height: 1.15;
+  text-align: center;
+  padding: 0 1px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+

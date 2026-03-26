@@ -1,0 +1,51 @@
+.panel {
+  border-radius: 22px;
+  border: 1px solid var(--border);
+  background: color-mix(in oklab, var(--surface) 85%, transparent);
+  backdrop-filter: blur(16px);
+  padding: 1rem 1.05rem 1.05rem;
+  box-shadow: 0 14px 35px rgba(24, 24, 27, 0.06);
+  margin-bottom: 0.75rem;
+}
+
+.panel__title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.panel__text {
+  margin: 0.35rem 0 0;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.row {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.row__label {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.actions {
+  margin-top: 0.85rem;
+}
+
+.button {
+  height: 38px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  padding: 0 0.85rem;
+  font-size: 13px;
+  font-weight: 700;
+}

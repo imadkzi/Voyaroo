@@ -1,36 +1,84 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Voyaroo
 
-## Getting Started
+Mobile-first trip planning app (Next.js 16 + Postgres + Auth.js credentials).
 
-First, run the development server:
+## Features
+
+- Account signup/login with per-user trip data isolation
+- Trips with itinerary, checklist, and outfits
+- Location autocomplete + hero image auto-pick (Geoapify + Pexels fallback)
+- PWA manifest + branded icons
+
+## Local setup
+
+1) Install dependencies
+
+```bash
+npm install
+```
+
+2) Create env file
+
+```bash
+cp .env.example .env.local
+```
+
+3) Start Postgres
+
+```bash
+npm run db:up
+```
+
+4) Run DB migrations
+
+```bash
+npm run db:migrate
+```
+
+5) Start app
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Required environment variables
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- `DATABASE_URL`
+- `AUTH_SECRET`
+- `NEXTAUTH_URL`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Optional:
+- `PEXELS_API_KEY`
+- `NEXT_PUBLIC_GEOAPIFY_API_KEY`
+- `NODE_EXTRA_CA_CERTS` (for corporate TLS interception environments)
 
-## Learn More
+## Testing on a real device
 
-To learn more about Next.js, take a look at the following resources:
+- Run your dev server on your machine.
+- Access via your machine LAN IP, e.g. `http://192.168.1.20:3000`.
+- Set `NEXTAUTH_URL` in `.env.local` to that same LAN URL.
+- Restart `npm run dev` after env changes.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Production deploy checklist
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1) Provision managed Postgres (Neon/Railway/RDS)
+2) Set production env vars:
+   - `DATABASE_URL`
+   - `AUTH_SECRET`
+   - `NEXTAUTH_URL` (https domain)
+   - provider keys if used
+3) Run migrations:
 
-## Deploy on Vercel
+```bash
+npm run db:migrate
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+4) Build and smoke test:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm run build
+```
+
+5) Verify auth + data isolation:
+- User A cannot view User B trips
+- Login/register throttling is working

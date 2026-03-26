@@ -1,0 +1,44 @@
+.wrap {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.inputWrap {
+  position: relative;
+}
+
+.placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 0.9rem;
+  color: color-mix(in oklab, var(--muted) 85%, transparent);
+  font-size: 14px;
+  font-weight: 600;
+  pointer-events: none;
+}
+
+.input {
+  height: 44px;
+  width: 100%;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text);
+  padding: 0 0.9rem;
+  font-size: 14px;
+  font-weight: 650;
+  outline: none;
+
+  &:focus-visible {
+    box-shadow: 0 0 0 2px var(--ring);
+  }
+}
+

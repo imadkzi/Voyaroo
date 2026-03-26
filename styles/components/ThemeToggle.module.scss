@@ -1,0 +1,38 @@
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  width: 40px;
+  border-radius: 999px;
+
+  border: 1px solid var(--border);
+  background: color-mix(in oklab, var(--surface) 70%, transparent);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 10px 25px rgba(24, 24, 27, 0.1);
+
+  cursor: pointer;
+
+  &:hover {
+    background: color-mix(in oklab, var(--surface) 82%, transparent);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow:
+      0 0 0 2px var(--ring),
+      0 10px 25px rgba(24, 24, 27, 0.1);
+  }
+}
+
+.toggle__icon {
+  height: 18px;
+  width: 18px;
+}
+
+.toggle__placeholder {
+  height: 18px;
+  width: 18px;
+  display: inline-block;
+}
+

@@ -1,0 +1,33 @@
+.tripsHome {
+  min-width: 0;
+}
+
+.tripsHome__kicker {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.tripsHome__heading {
+  margin: 0.35rem 0 0;
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+}
+
+.tripsHome__lede {
+  margin: 0.45rem 0 1rem;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.list {
+  display: grid;
+  gap: 1rem;
+}

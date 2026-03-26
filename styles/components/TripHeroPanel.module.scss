@@ -1,0 +1,48 @@
+.media {
+  position: relative;
+  aspect-ratio: 16 / 11;
+  min-height: 200px;
+  max-height: 300px;
+  border-radius: 22px 22px 0 0;
+  overflow: hidden;
+}
+
+.media--rounded {
+  border-radius: 22px;
+  border: 1px solid var(--border);
+}
+
+.img {
+  object-fit: cover;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(10, 10, 10, 0.05) 0%,
+    rgba(10, 10, 10, 0.55) 55%,
+    rgba(10, 10, 10, 0.78) 100%
+  );
+  pointer-events: none;
+}
+
+.inner {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 1rem 1rem 0.95rem;
+  min-width: 0;
+}
+
+.title {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  color: #fff;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.35);
+}

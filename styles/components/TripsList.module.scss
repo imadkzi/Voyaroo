@@ -1,0 +1,52 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.row {
+  position: relative;
+  border-radius: 22px;
+}
+
+.behind {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center end;
+  padding-right: 0.75rem;
+  border-radius: 22px;
+  background: color-mix(in oklab, #ef4444 18%, transparent);
+}
+
+.delete {
+  height: 44px;
+  padding: 0 16px;
+  border-radius: 999px;
+  border: 0;
+  background: #ef4444;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.front {
+  will-change: transform;
+  transition: transform 180ms ease;
+}
+
+.front--dragging {
+  transition: none;
+}
+
+.front--deleting {
+  opacity: 0.55;
+  filter: grayscale(0.2);
+}
+
