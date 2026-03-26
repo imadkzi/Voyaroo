@@ -18,9 +18,12 @@ export const metadata: Metadata = {
   description: "A trip hub for countdowns, plans, checklists, and outfits.",
   applicationName: "Voyaroo",
   icons: {
-    icon: "/brand/logo-mark.svg",
-    shortcut: "/brand/logo-mark.svg",
-    apple: "/brand/logo-mark.svg",
+    icon: [
+      { url: "/favicon.png", type: "image/png", sizes: "48x48" },
+      { url: "/favicon-96x96.png", type: "image/png", sizes: "96x96" },
+    ],
+    shortcut: "/favicon.png",
+    apple: "/apple-touch-icon.png",
   },
   appleWebApp: {
     capable: true,
