@@ -2,6 +2,7 @@ import Image from "next/image";
 import type { TripListItem } from "../lib/trips";
 import { TripCountdown } from "./TripCountdown";
 import styles from "../styles/components/TripHeroPanel.module.scss";
+import { toProxiedImageUrl } from "../lib/image-proxy";
 
 type HeadingTag = "h1" | "h2";
 
@@ -18,7 +19,8 @@ export function TripHeroPanel({
   rounded?: boolean;
 }) {
   const hasHero = Boolean(trip.heroImageSrc && trip.heroImageSrc.trim());
-  const remoteHero = hasHero && /^https?:\/\//i.test(trip.heroImageSrc);
+  const imageSrc = hasHero ? toProxiedImageUrl(trip.heroImageSrc) : "";
+  const remoteHero = hasHero && /^https?:\/\//i.test(imageSrc);
   const TitleTag = headingTag;
 
   return (
@@ -27,7 +29,7 @@ export function TripHeroPanel({
     >
       {hasHero ? (
         <Image
-          src={trip.heroImageSrc}
+          src={imageSrc}
           alt={`${trip.title} — ${trip.locationLabel}`}
           fill
           className={styles.img}

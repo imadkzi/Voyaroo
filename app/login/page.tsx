@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { signIn } from "../../lib/auth";
@@ -65,6 +66,17 @@ export default async function LoginPage({
   return (
     <div className={`${styles.auth} u-bg-mesh`}>
       <section className={styles.card}>
+        <div className={styles.brand}>
+          <Image
+            src="/brand/logo-mark.svg"
+            alt="Voyaroo"
+            className={styles.brand__logo}
+            width={28}
+            height={28}
+            priority
+          />
+          <p className={styles.brand__name}>Voyaroo</p>
+        </div>
         <h1 className={styles.title}>Sign in</h1>
         <p className={styles.text}>Access your trips and account.</p>
         <form action={login} className={styles.form}>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import bcrypt from "bcryptjs";
@@ -86,6 +87,17 @@ export default async function RegisterPage({
   return (
     <div className={`${styles.auth} u-bg-mesh`}>
       <section className={styles.card}>
+        <div className={styles.brand}>
+          <Image
+            src="/brand/logo-mark.svg"
+            alt="Voyaroo"
+            className={styles.brand__logo}
+            width={28}
+            height={28}
+            priority
+          />
+          <p className={styles.brand__name}>Voyaroo</p>
+        </div>
         <h1 className={styles.title}>Create account</h1>
         <p className={styles.text}>Your trips are private to your account.</p>
         <form action={register} className={styles.form}>

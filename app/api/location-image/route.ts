@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { toProxiedImageUrl } from "../../../lib/image-proxy";
 
 function toSeededFallbackHero(query: string) {
   const q = query.trim();
@@ -36,7 +37,7 @@ export async function GET(request: Request) {
   const apiKey = process.env.PEXELS_API_KEY;
   if (!apiKey) {
     return NextResponse.json({
-      imageUrl: toSeededFallbackHero(q),
+      imageUrl: toProxiedImageUrl(toSeededFallbackHero(q)),
       source: "fallback",
     });
   }
@@ -65,7 +66,7 @@ export async function GET(request: Request) {
 
     if (!res.ok) {
       return NextResponse.json({
-        imageUrl: toSeededFallbackHero(q),
+        imageUrl: toProxiedImageUrl(toSeededFallbackHero(q)),
         source: "fallback",
       });
     }
@@ -84,10 +85,10 @@ export async function GET(request: Request) {
       picked?.src?.original ??
       toSeededFallbackHero(q);
 
-    return NextResponse.json({ imageUrl, source: "pexels" });
+    return NextResponse.json({ imageUrl: toProxiedImageUrl(imageUrl), source: "pexels" });
   } catch {
     return NextResponse.json({
-      imageUrl: toSeededFallbackHero(q),
+      imageUrl: toProxiedImageUrl(toSeededFallbackHero(q)),
       source: "fallback",
     });
   }

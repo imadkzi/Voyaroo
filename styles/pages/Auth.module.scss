@@ -14,6 +14,25 @@
   padding: 1rem;
 }
 
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-bottom: 0.55rem;
+}
+
+.brand__logo {
+  border-radius: 8px;
+  box-shadow: 0 8px 22px rgba(255, 56, 92, 0.2);
+}
+
+.brand__name {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+}
+
 .title {
   margin: 0;
   font-size: 1.1rem;

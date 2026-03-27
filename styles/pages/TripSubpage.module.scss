@@ -4,6 +4,51 @@
   gap: 0.75rem;
 }
 
+.menu {
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: color-mix(in oklab, var(--surface) 88%, transparent);
+  backdrop-filter: blur(16px);
+  overflow: hidden;
+}
+
+.menu__trigger {
+  list-style: none;
+  cursor: pointer;
+  padding: 0.8rem 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--text);
+  user-select: none;
+
+  &::-webkit-details-marker {
+    display: none;
+  }
+}
+
+.menu__triggerIcon {
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: color-mix(in oklab, var(--primary) 14%, transparent);
+  color: var(--primary);
+}
+
+.menu__content {
+  display: grid;
+  gap: 0.75rem;
+  padding: 0 0.75rem 0.75rem;
+}
+
+.menu__group {
+  padding: 0.25rem 0.25rem 0.1rem;
+}
+
 .panel {
   border-radius: 22px;
   border: 1px solid var(--border);
@@ -40,11 +85,17 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 0.6rem;
+  min-width: 0;
 }
 
 .panel__input {
   height: 42px;
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  appearance: none;
   border-radius: 14px;
   border: 1px solid var(--border);
   background: var(--surface-2);
@@ -64,12 +115,24 @@
   }
 }
 
+.panel__input[type="datetime-local"] {
+  text-align: center;
+}
+
+.panel__input[type="datetime-local"]::-webkit-date-and-time-value {
+  width: auto;
+}
+
+.panel__input[type="datetime-local"]::-webkit-datetime-edit {
+  text-align: center;
+}
+
 .panel__button {
   height: 42px;
   border-radius: 999px;
   border: 0;
   background: var(--primary);
-  color: var(--primary-foreground);
+  color: white;
   font-size: 14px;
   font-weight: 800;
   box-shadow: 0 14px 35px rgba(255, 56, 92, 0.25);

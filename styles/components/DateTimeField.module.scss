@@ -1,6 +1,8 @@
 .wrap {
   display: grid;
   gap: 0.35rem;
+  min-width: 0;
+  width: 100%;
 }
 
 .label {
@@ -11,6 +13,9 @@
 
 .inputWrap {
   position: relative;
+  min-width: 0;
+  width: 100%;
+  overflow: hidden;
 }
 
 .placeholder {
@@ -28,6 +33,12 @@
 .input {
   height: 44px;
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  appearance: none;
+  text-align: center;
   border-radius: 14px;
   border: 1px solid var(--border);
   background: var(--surface-2);
@@ -40,5 +51,15 @@
   &:focus-visible {
     box-shadow: 0 0 0 2px var(--ring);
   }
+}
+
+/* iOS Safari renders datetime fields via internal WebKit parts */
+.input::-webkit-date-and-time-value {
+  width: 100%;
+  text-align: center;
+}
+
+.input::-webkit-datetime-edit {
+  text-align: center;
 }
 

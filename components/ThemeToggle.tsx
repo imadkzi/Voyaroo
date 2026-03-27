@@ -1,12 +1,16 @@
 "use client";
 
 import { Moon, Sun } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import styles from "../styles/components/ThemeToggle.module.scss";
 
 export function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme();
-  const ready = resolvedTheme === "light" || resolvedTheme === "dark";
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  const ready = mounted && (resolvedTheme === "light" || resolvedTheme === "dark");
   const isDark = resolvedTheme === "dark";
 
   return (

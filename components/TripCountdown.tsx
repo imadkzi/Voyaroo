@@ -7,13 +7,22 @@ function pad(n: number) {
   return n.toString().padStart(2, "0");
 }
 
+let currentNow = 0;
+
 function subscribeNow(onStoreChange: () => void) {
-  const id = window.setInterval(onStoreChange, 1000);
+  // Keep a stable snapshot value between notifications.
+  if (currentNow === 0) {
+    currentNow = Date.now();
+  }
+  const id = window.setInterval(() => {
+    currentNow = Date.now();
+    onStoreChange();
+  }, 1000);
   return () => window.clearInterval(id);
 }
 
 function getNowSnapshot() {
-  return Date.now();
+  return currentNow;
 }
 
 function getNowServerSnapshot() {

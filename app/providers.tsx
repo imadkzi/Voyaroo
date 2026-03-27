@@ -11,11 +11,15 @@ export function Providers({ children }: { children: ReactNode }) {
     const original = console.error;
     console.error = (...args) => {
       const first = args[0];
+      const firstText = String(first ?? "");
       if (
-        typeof first === "string" &&
-        first.includes(
+        firstText.includes(
           "Encountered a script tag while rendering React component",
-        )
+        ) ||
+        firstText.includes(
+          "We are cleaning up async info that was not on the parent Suspense boundary. This is a bug in React.",
+        ) ||
+        firstText.includes("chrome-extension://")
       ) {
         return;
       }
