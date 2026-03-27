@@ -3,8 +3,19 @@ import { auth } from "../../../../../lib/auth";
 import { query } from "../../../../../lib/db/postgres";
 import { getTripIdBySlugForOwner } from "../../../../../lib/trip-owner";
 
+function logMissingTripContext(request: Request, slug: string, userId: string) {
+  console.error("trip_lookup_failed_checklist", {
+    slug,
+    userId,
+    host: request.headers.get("host"),
+    forwardedHost: request.headers.get("x-forwarded-host"),
+    forwardedFor: request.headers.get("x-forwarded-for"),
+    requestId: request.headers.get("x-request-id"),
+  });
+}
+
 export async function GET(
-  _request: Request,
+  request: Request,
   { params }: { params: Promise<{ slug: string }> },
 ) {
   const session = await auth();
@@ -13,7 +24,10 @@ export async function GET(
 
   const { slug } = await params;
   const tripId = await getTripIdBySlugForOwner(slug, userId);
-  if (!tripId) return NextResponse.json({ items: [] }, { status: 200 });
+  if (!tripId) {
+    logMissingTripContext(request, slug, userId);
+    return NextResponse.json({ ok: false, items: [] }, { status: 404 });
+  }
 
   const rows = await query<{ id: string; label: string; done: boolean }>(
     `select id::text as id, label, done
@@ -35,7 +49,10 @@ export async function POST(
 
   const { slug } = await params;
   const tripId = await getTripIdBySlugForOwner(slug, userId);
-  if (!tripId) return NextResponse.json({ ok: false }, { status: 404 });
+  if (!tripId) {
+    logMissingTripContext(request, slug, userId);
+    return NextResponse.json({ ok: false }, { status: 404 });
+  }
 
   const body = (await request.json().catch(() => null)) as { label?: string } | null;
   const label = String(body?.label ?? "").trim();

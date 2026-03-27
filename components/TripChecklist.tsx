@@ -34,6 +34,11 @@ export function TripChecklist({
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ label: next }),
       });
+      if (!res.ok) {
+        setLabel(next);
+        console.error("checklist_add_failed", { tripSlug, status: res.status });
+        return;
+      }
       const json = (await res.json()) as { item?: ChecklistItemDto };
       if (json.item) {
         setItems((prev) => [json.item!, ...prev]);
@@ -43,13 +48,22 @@ export function TripChecklist({
 
   function toggle(it: ChecklistItemDto) {
     const optimistic = { ...it, done: !it.done };
+    const snapshot = items;
     setItems((prev) => prev.map((x) => (x.id === it.id ? optimistic : x)));
     startTransition(async () => {
-      await fetch(`/api/trips/${tripSlug}/checklist/${it.id}`, {
+      const res = await fetch(`/api/trips/${tripSlug}/checklist/${it.id}`, {
         method: "PATCH",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ done: optimistic.done }),
       });
+      if (!res.ok) {
+        setItems(snapshot);
+        console.error("checklist_toggle_failed", {
+          tripSlug,
+          itemId: it.id,
+          status: res.status,
+        });
+      }
     });
   }
 
@@ -61,14 +75,19 @@ export function TripChecklist({
   function saveEdit(id: string) {
     const next = editingLabel.trim();
     if (!next) return;
+    const snapshot = items;
     setEditingId(null);
     setItems((prev) => prev.map((x) => (x.id === id ? { ...x, label: next } : x)));
     startTransition(async () => {
-      await fetch(`/api/trips/${tripSlug}/checklist/${id}`, {
+      const res = await fetch(`/api/trips/${tripSlug}/checklist/${id}`, {
         method: "PATCH",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ label: next }),
       });
+      if (!res.ok) {
+        setItems(snapshot);
+        console.error("checklist_edit_failed", { tripSlug, itemId: id, status: res.status });
+      }
     });
   }
 
@@ -79,7 +98,14 @@ export function TripChecklist({
       const res = await fetch(`/api/trips/${tripSlug}/checklist/${id}`, {
         method: "DELETE",
       });
-      if (!res.ok) setItems(snapshot);
+      if (!res.ok) {
+        setItems(snapshot);
+        console.error("checklist_remove_failed", {
+          tripSlug,
+          itemId: id,
+          status: res.status,
+        });
+      }
     });
   }
 

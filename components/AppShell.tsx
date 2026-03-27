@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { ChevronLeft } from "lucide-react";
 import { FloatingQuickMenu } from "./FloatingQuickMenu";
 import styles from "../styles/components/AppShell.module.scss";
@@ -40,10 +41,13 @@ export function AppShell({
             ) : null}
             <div className={styles.brand}>
               <Link href="/" className={styles.brand__logoLink} aria-label={brandKicker}>
-                <img
+                <Image
                   src="/brand/logo-inline.svg"
                   alt={brandKicker}
                   className={styles.brand__logo}
+                  width={160}
+                  height={32}
+                  priority
                 />
               </Link>
             </div>
@@ -61,7 +65,9 @@ export function AppShell({
         </div>
       </header>
 
-      <main className={styles.main}>{children}</main>
+      <main className={styles.main} aria-label={title}>
+        {children}
+      </main>
 
       <FloatingQuickMenu />
     </div>

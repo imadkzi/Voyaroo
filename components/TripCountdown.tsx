@@ -1,10 +1,23 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useSyncExternalStore } from "react";
 import styles from "../styles/components/TripCountdown.module.scss";
 
 function pad(n: number) {
   return n.toString().padStart(2, "0");
+}
+
+function subscribeNow(onStoreChange: () => void) {
+  const id = window.setInterval(onStoreChange, 1000);
+  return () => window.clearInterval(id);
+}
+
+function getNowSnapshot() {
+  return Date.now();
+}
+
+function getNowServerSnapshot() {
+  return 0;
 }
 
 export function TripCountdown({ departureAt }: { departureAt: string | null }) {
@@ -12,18 +25,13 @@ export function TripCountdown({ departureAt }: { departureAt: string | null }) {
     () => (departureAt ? new Date(departureAt).getTime() : Number.NaN),
     [departureAt],
   );
-  const [mounted, setMounted] = useState(false);
-  const [now, setNow] = useState(() => Date.now());
+  const now = useSyncExternalStore(
+    subscribeNow,
+    getNowSnapshot,
+    getNowServerSnapshot,
+  );
 
-  useEffect(() => setMounted(true), []);
-
-  useEffect(() => {
-    if (!mounted) return;
-    const id = window.setInterval(() => setNow(Date.now()), 1000);
-    return () => window.clearInterval(id);
-  }, [mounted]);
-
-  if (!mounted) {
+  if (!now) {
     return (
       <div className={styles.countdown} aria-hidden="true">
         <div className={styles.countdown__grid}>

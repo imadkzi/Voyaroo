@@ -55,6 +55,12 @@ export function TripItinerary({
         headers: { "content-type": "application/json" },
         body: JSON.stringify(payload),
       });
+      if (!res.ok) {
+        setTitle(t);
+        setNotes(notes);
+        console.error("itinerary_add_failed", { tripSlug, status: res.status });
+        return;
+      }
       const json = (await res.json()) as { item?: ItineraryItemDto };
       if (json.item) {
         setItems((prev) => [...prev, json.item!]);
@@ -75,14 +81,19 @@ export function TripItinerary({
     const t = editTitle.trim();
     if (!t) return;
     const payload = { title: t, dayNumber: editDay, notes: editNotes.trim() };
+    const snapshot = items;
     setEditingId(null);
     setItems((prev) => prev.map((x) => (x.id === id ? { ...x, ...payload } : x)));
     startTransition(async () => {
-      await fetch(`/api/trips/${tripSlug}/itinerary/${id}`, {
+      const res = await fetch(`/api/trips/${tripSlug}/itinerary/${id}`, {
         method: "PATCH",
         headers: { "content-type": "application/json" },
         body: JSON.stringify(payload),
       });
+      if (!res.ok) {
+        setItems(snapshot);
+        console.error("itinerary_edit_failed", { tripSlug, itemId: id, status: res.status });
+      }
     });
   }
 
@@ -93,7 +104,14 @@ export function TripItinerary({
       const res = await fetch(`/api/trips/${tripSlug}/itinerary/${id}`, {
         method: "DELETE",
       });
-      if (!res.ok) setItems(snapshot);
+      if (!res.ok) {
+        setItems(snapshot);
+        console.error("itinerary_remove_failed", {
+          tripSlug,
+          itemId: id,
+          status: res.status,
+        });
+      }
     });
   }
 

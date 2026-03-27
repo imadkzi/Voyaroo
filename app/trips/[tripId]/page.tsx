@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { AppShell } from "../../../components/AppShell";
 import { TripExperience } from "../../../components/TripExperience";
@@ -27,6 +28,15 @@ export default async function TripPage({
   const user = await requireSessionUser();
   const trip = await getTripById(tripId, user.id);
   if (!trip) {
+    const h = await headers();
+    console.error("trip_page_not_found", {
+      tripId,
+      userId: user.id,
+      host: h.get("host"),
+      forwardedHost: h.get("x-forwarded-host"),
+      forwardedFor: h.get("x-forwarded-for"),
+      requestId: h.get("x-request-id"),
+    });
     notFound();
   }
 

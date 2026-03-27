@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Home, Menu, Settings, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styles from "../styles/components/FloatingQuickMenu.module.scss";
 
 const items = [
@@ -13,11 +13,8 @@ const items = [
 
 export function FloatingQuickMenu() {
   const pathname = usePathname();
-  const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    setOpen(false);
-  }, [pathname]);
+  const [openPath, setOpenPath] = useState<string | null>(null);
+  const open = openPath === pathname;
 
   return (
     <div className={styles.menu}>
@@ -52,7 +49,7 @@ export function FloatingQuickMenu() {
         className={styles.menu__toggle}
         aria-expanded={open}
         aria-label={open ? "Close quick menu" : "Open quick menu"}
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => setOpenPath((p) => (p === pathname ? null : pathname))}
       >
         {open ? (
           <X className={styles.menu__toggleIcon} aria-hidden />

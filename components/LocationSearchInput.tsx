@@ -77,7 +77,6 @@ export function LocationSearchInput({
   useEffect(() => {
     const query = q.trim();
     if (query.length < 2) {
-      setResults([]);
       return;
     }
 
@@ -137,7 +136,9 @@ export function LocationSearchInput({
     }, 250);
 
     return () => window.clearTimeout(id);
-  }, [q]);
+  }, [q, geoapifyKey]);
+
+  const visibleResults = q.trim().length >= 2 ? results : [];
 
   async function pick(label: string) {
     const normalized = normalizeLocationLabel(label);
@@ -170,9 +171,9 @@ export function LocationSearchInput({
       <input type="hidden" name={locationName} value={selected || q} />
       <input type="hidden" name={heroName} value={hero} />
 
-      {open && results.length ? (
+      {open && visibleResults.length ? (
         <div className={styles.dropdown} role="listbox" aria-label="Locations">
-          {results.map((r, idx) => (
+          {visibleResults.map((r, idx) => (
             <button
               key={`${r.label}-${idx}`}
               type="button"
