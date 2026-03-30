@@ -3,7 +3,6 @@
 import { ThemeProvider } from "next-themes";
 import type { ReactNode } from "react";
 import { useEffect } from "react";
-import { OfflineWarmCache } from "../components/OfflineWarmCache";
 
 export function Providers({ children }: { children: ReactNode }) {
   useEffect(() => {
@@ -41,7 +40,6 @@ export function Providers({ children }: { children: ReactNode }) {
       /* Avoids inline color-scheme on <html> that differs from SSR HTML */
       enableColorScheme={false}
     >
-      <OfflineWarmCache />
       {children}
     </ThemeProvider>
   );
